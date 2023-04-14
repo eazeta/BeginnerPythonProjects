@@ -10,6 +10,12 @@ conn = sqlite3.connect(':memory:')
 # This will allow you to communicate with the database
 c = conn.cursor()
 
+# This is a function to simplify the addcontact process and protect from SQL injection
+def addDbContact(conn, firstName, lastName, age, number):
+  c = conn.cursor()
+  c.execute("INSERT INTO contacts VALUES(?, ?, ?, ?)", (firstName, lastName, age, number))
+  conn.commit()
+
 # The execute method allows you to run SQL queries
 # Below is a script to create the table. It's called contacts and it has 4 columns with it's corresponding data type.
 c.execute("""CREATE TABLE contacts (
@@ -21,8 +27,8 @@ c.execute("""CREATE TABLE contacts (
 
 # This script adds a contact called Emmanuel Zeta to the database
 # c.execute("INSERT INTO contacts VALUES ('Emmanuel', 'Zeta', 22, '01234567891')")
-c.execute("INSERT INTO contacts VALUES ('Emmanuel', 'Zeta', 22, '0111')")
-c.execute("INSERT INTO contacts VALUES ('Manny', 'Zeta', 23, '0222')")
+addDbContact(conn, 'Emmanuel', 'Zeta', 23, '0111')
+addDbContact(conn, 'Manny', 'Zeta', 23, '0222')
 
 # c.execute("SELECT * FROM contacts")
 
@@ -68,9 +74,7 @@ while exit != "N":
     if addConfirm != 'Y':
       print("Uh oh!")
     else:
-      c.execute(f"INSERT INTO contacts VALUES ('{firstName}', '{lastName}', '{age}', '{phoneNumber}')")
-      # This commits the change to the database
-      conn.commit()
+      addDbContact(conn, firstName=firstName, lastName=lastName, age=age, number=phoneNumber)
       print("Contact added")
   # Delete contact journey
   elif journey == "B":
@@ -82,12 +86,12 @@ while exit != "N":
       print(c.fetchall())
     contactToDelete = input("Please enter the phone number of the contact you would like to delete: ")
     print(contactToDelete)
-    c.execute(f"SELECT * FROM contacts WHERE number = '{contactToDelete}'")
+    c.execute(f"SELECT * FROM contacts WHERE number = ?", (contactToDelete, ))
     print(c.fetchall())
     removeConfirm2 = input("Please confirm that this is the contact you would like to remove Y/N: ")
     removeConfirm2 = removeConfirm2.upper()
     if removeConfirm2 == "Y":
-      c.execute(f"DELETE FROM contacts WHERE number = '{contactToDelete}'")
+      c.execute(f"DELETE FROM contacts WHERE number = ?",(contactToDelete, ))
       # This commits the change to the database
       conn.commit()
       print("Contact succesfully deleted")
