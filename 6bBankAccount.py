@@ -9,6 +9,7 @@ class BankAccount:
     self.account_number = account_number
   
   def addAccount(self):
+    # Creates the table
     c.execute("""CREATE TABLE IF NOT EXISTS bankAccounts (
       firstName text,
       lastName text,
@@ -19,6 +20,7 @@ class BankAccount:
     conn.commit()
 
   def deposit(self, amount: float):
+    # checks if the deposit amount is valid. If it's valid then it will add the amount then return the new amount. If it's invalid it will raise a ValueError then print it.
     try:
       if amount < 0:
         raise ValueError('Error! You cannot depost negative funds')
@@ -28,6 +30,7 @@ class BankAccount:
       print(err)
   
   def withdraw(self, amount: float):
+    # checks if the withdrawl amount is valid. If it's valid then it will subtract the amount then return the new amount. If it's invalid it will raise a ValueError then print it.
     try: 
       if amount > self.balance:
         raise ValueError('Insufficient funds')
@@ -55,6 +58,7 @@ c.execute("""CREATE TABLE IF NOT EXISTS bankAccounts (
   accountNumber text,
   balance float
 )""")
+# These are template bank accounts
 stock1 = BankAccount(10000, "Emmanuel", "Zeta", 1111)
 stock1.addAccount()
 stock2 = BankAccount(20000, "Manny", "Zeta", 2222)
