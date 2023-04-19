@@ -50,6 +50,7 @@ class BankAccount:
 
 print("Welcome to the bank database")
 exit = False 
+# establishes connection to database in memory
 conn = sqlite3.connect(':memory:')
 c = conn.cursor()
 c.execute("""CREATE TABLE IF NOT EXISTS bankAccounts (
