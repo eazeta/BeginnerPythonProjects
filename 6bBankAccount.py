@@ -86,16 +86,10 @@ while exit == False:
       if confirmAddAccount == 'N':
         print("Returning back to home page ...")
       elif confirmAddAccount == 'Y':
-        c.execute("INSERT INTO bankAccounts VALUES(?, ?, ?, ?)", (firstName, lastName, accountNumber, 0))
-        conn.commit()
+        newAccount = BankAccount(0, firstName, lastName, accountNumber)
+        newAccount.addAccount()
         print("Success! New account has been added")
-        c.execute("SELECT * FROM bankAccounts WHERE accountNumber=?", (accountNumber,))
-        account = c.fetchone()
-        print(f"""
-    Account Owner: {account[0]} {account[1]}
-    Account Number: {account[2]}
-    Balance: {account[3]}
-    """)
+        print(newAccount)
       else:
         print("Uh oh. There seems to be an error")
     elif journey == "B":
