@@ -10,7 +10,7 @@ while True:
   atSymbol = email.find('@')
   if email.count('@') != 1 or email[atSymbol -  1] == "." or email[0] == "." or any(char in invalidCharacters for char in email):
       print("Invalid email has been entered")
-  elif len(email) > 10:
+  elif len(email) > 256:
      print("Email cannot be longer that 256 characters")
   else:
     break
