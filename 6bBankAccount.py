@@ -25,9 +25,9 @@ class BankAccount:
       if amount < 0:
         raise ValueError('Error! You cannot depost negative funds')
       self.balance += amount
-      return self.balance
     except ValueError as err:
       print(err)
+    return self.balance
   
   def withdraw(self, amount: float):
     # checks if the withdrawl amount is valid. If it's valid then it will subtract the amount then return the new amount. If it's invalid it will raise a ValueError then print it.
@@ -37,9 +37,9 @@ class BankAccount:
       if amount < 0:
         raise ValueError('Error! You cannot withdraw negative funds')
       self.balance -= amount
-      return self.balance
     except ValueError as err:
       print(err)
+    return self.balance
 
   def __str__(self):
     return f"""
